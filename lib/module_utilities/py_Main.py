@@ -65,13 +65,19 @@ class Main:
 		for p in ui.panes:
 			if p.type == PaneType.NETWORKEDITOR:
 				pa = p.owner
+				folderpath = pa.par.externaltox.val
+				folderpath = folderpath[:-4]
+				os.makedirs(folderpath, exist_ok=True)
 				
 				pa.save(pa.par.externaltox)
 					
 				pythonOps = pa.findChildren(name='py_*', maxDepth=1)
 				
 				for o in pythonOps:
-					filepath = o.par.file
+					filepath = o.par.file.val
+					folderPath = filepath.split('.')
+					folderPath = folderPath[0]
+					os.makedirs(folderpath, exist_ok=True)
 					o.save(filepath)
 					
 	
@@ -81,16 +87,28 @@ class Main:
 		for p in ui.panes:
 			if p.type == PaneType.NETWORKEDITOR:
 				pa = p.owner
+				print(pa.path)
+				
+				folderpath = pa.par.externaltox.val
+				folderpath = folderpath[:-4]
+				os.makedirs(folderpath, exist_ok=True)
 				
 				pa.save(pa.par.externaltox)
 				
 				subModules = pa.findChildren(name='module_*')
 				
 				for module in subModules:
+					folderpath = module.par.externaltox.val
+					folderpath = folderpath[:-4]
+					os.makedirs(folderpath, exist_ok=True)
+				
 					module.save(module.par.externaltox)
 					
 				pythonOps = pa.findChildren(name='py_*')
 				
 				for o in pythonOps:
-					filepath = o.par.file
+					filepath = o.par.file.val
+					folderPath = filepath.split('.')
+					folderPath = folderPath[0]
+					os.makedirs(folderpath, exist_ok=True)
 					o.save(filepath)
